@@ -160,6 +160,18 @@ ALLOWED_HOSTS = [DIVIO_DOMAIN] + DIVIO_DOMAIN_ALIASES + DIVIO_DOMAIN_REDIRECTS
 # Redirect to HTTPS by default, unless explicitly disabled
 SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT') != "False"
 
+# DEFAULT_FILE_STORAGE is configured using DEFAULT_STORAGE_DSN
+
+# read the setting value from the environment variable
+DEFAULT_STORAGE_DSN = os.environ.get('DEFAULT_STORAGE_DSN', 'file:///' + os.path.join(BASE_DIR, '/media/?url=%2Fmedia%2F'))
+
+# dsn_configured_storage_class() requires the name of the setting
+DefaultStorageClass = dsn_configured_storage_class('DEFAULT_STORAGE_DSN')
+
+# Django's DEFAULT_FILE_STORAGE requires the class name
+DEFAULT_FILE_STORAGE = 'articles.settings.DefaultStorageClass'
+
+
 try:
     from .local import *
 except ImportError:
