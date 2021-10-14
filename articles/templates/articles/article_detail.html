@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+
+{% block meta_title %}{{ article.title }}{% endblock %}
+
+{% block title %}
+    <h1>{{ article.title }}</h1>
+    <h2>{% for tag in article.tags.all %}{{ tag.title }}{% endfor %}</h2>
+{% endblock %}
+
+{% block image_url %}{{ article.image.url }}{% endblock %}
+
+{% block content %}
+                <div class="text-center" style="padding: 25px;">
+                {% for tag in article.tags.all %}
+                    <span class="badge badge-dark">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+    <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        {{ article.content|safe }}
+                        <p class="post-meta">
+                            <i>Posted on {{ article.creation_date }}</i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+{% load static i18n %}
+
+{% block content %}
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="text-center tag-box">{% trans "Search by tags:" %}<br/>
+                {% for tag in tags_all %}
+                    <a href="{% url 'article-list' %}?tag={{ tag.name }}"><span class="badge badge-dark">{{ tag.name }}</span></a>
+                {% endfor %}
+            </div>
+
+            <div class="row gx-4 gx-lg-5">
+
+                {% if article_list|length > 0 %}
+                    {% for article in article_list %}
+                        <div class="cols-xs-12 col-md-6 col-lg-4 col-xl-4">
+                            <!-- Post preview-->
+                            <div class="post-preview">
+                                <a href="{% url 'article-detail' article.slug %}">
+                                    <img src="{{ article.image_thumb.url }}" alt="{{ article.title }}" width="376px" height="220px">
+                                    <h2 class="post-title">{{ article.title }}</h2>
+                                </a>
+                                <div class="article-content">
+                                    {{ article.content|striptags|truncatewords:40 }}
+                                </div>
+                                <div class="text-left">
+                                {% for tag in article.tags.all %}
+                                    <span class="badge badge-dark">{{ tag.name }}</span>
+                                {% endfor %}
+                                </div>
+                                <p class="post-meta">
+                                    Posted on {{ article.creation_date }}
+                                </p>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                            </div><div class="row gx-4 gx-lg-5">
+                        {% endif %}
+                    {% endfor %}
+{#                    <!-- Pager-->#}
+{#                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>#}
+                {% else %}
+                    <div class="text-center">{% trans "No articles" %}</div>
+                    <br>
+                    <br>
+                {% endif %}
+
+            </div>
+        </div>
+{% endblock %}
