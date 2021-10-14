@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django import forms
+from django.forms import Media
 from django.templatetags.static import static
 
 from .models import Article
@@ -16,7 +17,15 @@ class ArticleEditForm(forms.ModelForm):
         fields = '__all__'
 
     class Media:
-        js = ("//cdn.ckeditor.com/4.14.1/standard/ckeditor.js", static('js/admin.js'))
+        js = ("//cdn.ckeditor.com/4.14.1/standard/ckeditor.js", )
+
+    @property
+    def media(self):
+        # this is workaround because there was a problem with manifest for static('js/admin.js')
+        media = super(ArticleEditForm, self).media
+        admin_media = Media(js=(static('js/admin.js'), ))
+        media = media + admin_media
+        return media
 
 
 @admin.register(Article)
