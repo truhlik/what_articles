@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-slim-buster
 EXPOSE 8000
 
 # set the working directory
