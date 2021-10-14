@@ -11226,7 +11226,7 @@ header.masthead .site-heading .h1 {
   font-size: 1.875rem;
   margin-top: 1.875rem;
   margin-bottom: 0.625rem;
-  height: 86px;
+  min-height: 86px;
 }
 .post-preview > a > .post-subtitle {
   font-weight: 300;
@@ -11247,5 +11247,5 @@ header.masthead .site-heading .h1 {
   }
 }
 .article-content {
-  height: 267px;
+  min-height: 267px;
 }
