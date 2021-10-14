@@ -1,0 +1,5 @@
+/articles/local.py
+/media/
+/static/
+db.sqlite3
+Dockerfile
