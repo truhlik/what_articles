@@ -1,11 +1,13 @@
-FROM nginx:latest
+FROM python:3.9
+EXPOSE 8000
 
-# noop for legacy migration
-RUN mkdir /app && \
-    echo "#!/bin/bash" > /app/migrate.sh && \
-    chmod +x /app/migrate.sh
+# set the working directory
+WORKDIR /app
+# copy the repository files to it
+COPY . /app
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY html /usr/share/nginx/html
+RUN pip install -r requirements-prod.txt
+RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
 
-EXPOSE 80
+CMD gunicorn articles.wsgi --bind=0.0.0.0:8000 --forwarded-allow-ips="*"
