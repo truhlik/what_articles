@@ -16,7 +16,7 @@ class ArticleEditForm(forms.ModelForm):
         fields = '__all__'
 
     class Media:
-        js = ("//cdn.ckeditor.com/4.14.1/standard/ckeditor.js", )
+        js = ("//cdn.ckeditor.com/4.14.1/standard/ckeditor.js", static('js/admin.js'))
 
 
 @admin.register(Article)
