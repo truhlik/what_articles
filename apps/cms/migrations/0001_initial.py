@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('slug', models.SlugField(verbose_name='slug')),
-                ('image', models.ImageField(upload_to=apps.cms.models.article_directory_path, verbose_name='image')),
+                ('image', models.ImageField(verbose_name='image')),
                 ('content', models.TextField(verbose_name='content')),
                 ('creation_date', models.DateTimeField(auto_now_add=True, verbose_name='creation_date')),
                 ('tags', models.ManyToManyField(blank=True, to='tags.Tag', verbose_name='tags')),

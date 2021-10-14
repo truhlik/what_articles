@@ -21,7 +21,7 @@ class ArticleEditForm(forms.ModelForm):
 
     @property
     def media(self):
-        # this is workaround because there was a problem with manifest for static('js/admin.js')
+        # this is workaround because there was a problem with missing manifest for static('js/admin.js')
         media = super(ArticleEditForm, self).media
         admin_media = Media(js=(static('js/admin.js'), ))
         media = media + admin_media

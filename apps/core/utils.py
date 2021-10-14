@@ -1,9 +1,12 @@
+from io import BytesIO
+
 from PIL import Image
+from django.core.files.storage import default_storage
 
 
-def create_jpg_thumbnail(image_path: str, thumbnail_path: str, size: tuple):
+def create_jpg_thumbnail(image_name: str, target_name: str, size: tuple):
     # If height is higher we resize vertically, if not we resize horizontally
-    with Image.open(image_path) as img:
+    with Image.open(default_storage.open(image_name, 'rb')) as img:
         # Get current and desired ratio for the images
         img_ratio = img.size[0] / float(img.size[1])
         ratio = size[0] / float(size[1])
@@ -23,4 +26,12 @@ def create_jpg_thumbnail(image_path: str, thumbnail_path: str, size: tuple):
             img = img.resize((size[0], size[1]), Image.ANTIALIAS)
 
         # If the scale is the same, we do not need to crop
-        img.save(thumbnail_path)
+        image_buffer = BytesIO()
+        img.save(image_buffer, 'JPEG')
+
+        image_file = default_storage.open(target_name, 'wb')
+        image_file.write(image_buffer.getvalue())
+        image_file.flush()
+        image_file.close()
+
+        return target_name
